@@ -1,0 +1,21 @@
+.cards{
+    perspective: 1000px;
+}
+.carte {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    transform-style: preserve-3d;
+    transition: 500ms;
+    cursor: pointer;
+}
+.carte:hover{
+    box-shadow: 0 0px 5px #DDD;
+}
+.front,.back{
+    position: absolute;
+    backface-visibility: hidden;
+}
+.back{
+    transform: rotateY(180deg);
+}

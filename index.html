@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/style.css">
+    <title>BonneteauGame</title>
+</head>
+<body>
+   <div class='flex justify-center h-screen items-center'>
+        <div class='card w-100 bg-base-100 shadow-xl'>
+            <div class='card-body'>
+                <h2 class='card-title'>Bonneteau Game</h2>
+                <p>La carte rouge <strong>Gagné</strong> et la carte noire <strong>Perdu</strong>..</p>
+                <p>Score: <span class="score">0</span></p>
+                <div class="cards my-10 space-x-4 flex justify-center">
+                    <div class="carte flex justify-center items-center" style="transform: rotateY(180deg)" onclick="changeFace(event)">
+                        <img src="images/dosdecarte.png" alt=""  class="back w-full h-full">
+                        <img src="images/carte10noir.jpg" alt="" class="front w-full h-full">
+                    </div>
+                    <div class="carte flex justify-center items-center" style="transform: rotateY(180deg)" onclick="changeFace(event)">
+                        <img src="images/carte10noir.jpg" alt="" class="front w-full h-full">
+                        <img src="images/dosdecarte.png" alt=""  class="back w-full h-full">
+                    </div>
+                    <div class="carte flex justify-center items-center" style="transform: rotateY(180deg)" onclick="changeFace(event)">
+                        <img src="images/carte10noir.jpg" alt="" class="front w-full h-full">
+                        <img src="images/dosdecarte.png" alt=""  class="back w-full h-full">
+                    </div>
+                </div>
+                <input type="hidden" class="hidden"></input>
+                <button class="btn btn-soft btn-info w-full focus:outline-none" onclick="randomizer()">Générer</button>
+            </div>
+        </div>
+    </div>
+   </div>
+   <script>
+    randomizer();
+    function randomizer(){
+        let cards = document.querySelectorAll('.carte');
+        cards.forEach(card=>{
+            card.style.transform = "rotateY(180deg)";
+        });
+        let cartes = document.querySelectorAll('.front');
+        let random = Math.floor(Math.random()*cartes.length);
+        document.querySelectorAll(".carte").forEach(carte=>{
+            carte.style.pointerEvents = "auto";
+        }); 
+        setTimeout(()=>{
+            cartes.forEach(carte=>{
+                carte.setAttribute('src',"images/carte10noir.jpg");
+                carte.style.transform = "scale(1)";
+            })
+        },500);
+        setTimeout(()=>{
+            let carteWinner = cartes[random];
+            carteWinner.setAttribute('src',"images/carte10rouge.png");
+            carteWinner.style.transform = "scale(1.15)";
+        },500);
+        document.querySelector('.hidden').value=random;
+    }
+    function changeFace(event){
+        let score;
+        let element = event.currentTarget;
+        if(element.classList.contains("carte")){
+            if(element.style.transform == 'rotateY(180deg)'){
+                element.style.transform = 'rotateY(0deg)';
+            }
+            else{
+                element.style.transform = 'rotateY(180deg)';
+            }
+        }
+        document.querySelectorAll(".carte").forEach(carte=>{
+            carte.style.pointerEvents = "none";
+        }); 
+        if(element.querySelector(".front").getAttribute('src') == "images/carte10rouge.png"){
+            score = parseInt(document.querySelector('.score').innerText);
+            score += 1;
+            document.querySelector('.score').innerText = score;
+        }
+    }
+   </script>
+</body>
+</html>
